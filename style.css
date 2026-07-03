@@ -1,0 +1,67 @@
+body { 
+    font-family: sans-serif; 
+    background-color: #f0f2f5; 
+    display: flex; 
+    justify-content: center; 
+    padding: 20px; 
+}
+
+.admin-container { 
+    background: white; 
+    padding: 25px; 
+    border-radius: 12px; 
+    width: 350px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+}
+
+h2 { 
+    text-align: center; 
+    color: #0056b3; /* Heading ka color blue */
+}
+
+input { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 8px 0; 
+    border: 1px solid #007bff; /* Input border blue */
+    border-radius: 6px; 
+    box-sizing: border-box; 
+}
+
+button { 
+    width: 100%; 
+    padding: 12px; 
+    background-color: #007bff; /* Primary Blue Button */
+    color: white; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    margin-top: 10px;
+}
+
+button:hover { 
+    background-color: #0056b3; /* Hover par dark blue */
+}
+
+#resultArea { 
+    border-top: 2px solid #007bff; 
+    padding-top: 15px; 
+    margin-top: 20px;
+}
+.payment-container { 
+    background: white; padding: 25px; border-radius: 12px; 
+    width: 320px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+    margin: auto; text-align: center; 
+}
+.info-box { background: #f8f9fa; padding: 10px; border-radius: 8px; }
+.btn-upi { 
+    display: block; width: 100%; padding: 10px; margin: 8px 0; 
+    background: #007bff; color: white; text-decoration: none; 
+    border-radius: 5px; 
+}
+.btn-submit { 
+    width: 100%; padding: 12px; background: #28a745; 
+    color: white; border: none; border-radius: 5px; margin-top: 10px;
+}
+
