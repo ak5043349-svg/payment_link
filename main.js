@@ -12,7 +12,8 @@ function generateLink() {
     // Expiry Timestamp
     const expiry = Date.now() + (timer * 60 * 1000);
 
-    const baseUrl = "http://127.0.0.1:5500/payment.html";
+ // Purana link hatakar naya link lagayein
+const baseUrl = "https://ak5043349-svg.github.io/payment_link/payment.html";
 
     const params = new URLSearchParams({
         app: appName,
