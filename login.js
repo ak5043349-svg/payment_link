@@ -119,7 +119,7 @@ document.getElementById('loginForm').addEventListener('keypress', function(e) {
 (function checkSession() {
     const isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
     const loginTime = parseInt(localStorage.getItem('adminLoginTime') || '0');
-    const sessionDuration = 24 * 60 * 60 * 1000; // 24 hours
+const sessionDuration = 5 * 60 * 1000; // 5 minutes
 
     if (isLoggedIn && (Date.now() - loginTime) < sessionDuration) {
         // Already logged in, redirect to generator

@@ -1,3 +1,48 @@
+// ===========================
+// Auto Session Timeout
+// ===========================
+
+const SESSION_TIME = 5 * 60 * 1000; // 5 Minutes
+
+function updateActivity() {
+    localStorage.setItem("adminLoginTime", Date.now());
+}
+
+["click", "mousemove", "keypress", "scroll", "touchstart"].forEach(event => {
+    document.addEventListener(event, updateActivity);
+});
+
+function checkSession() {
+
+    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    const lastActivity = Number(localStorage.getItem("adminLoginTime"));
+
+    if (isLoggedIn !== "true") {
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (Date.now() - lastActivity > SESSION_TIME) {
+
+        localStorage.removeItem("adminLoggedIn");
+        localStorage.removeItem("adminLoginTime");
+        localStorage.removeItem("adminUsername");
+
+        alert("Session Expired. Please Login Again.");
+
+        window.location.href = "login.html";
+    }
+}
+
+updateActivity();
+
+checkSession();
+
+setInterval(checkSession, 5000);
+
+
+
 function generateLink() {
 
     const appName = document.getElementById('appName').value;
