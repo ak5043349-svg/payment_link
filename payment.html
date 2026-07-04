@@ -10,6 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <div class="main-wrapper">
+    <!-- Customer Info -->
+    <div class="info-card">
+        <div class="info-row"><span>Application</span> <strong>My Payment App</strong></div>
+        <div class="info-row"><span>Product</span> <strong>Premium Recharge</strong></div>
+    </div>
+
     <div class="page-wrapper">
     <!-- Customer Info Card -->
     <div class="info-card">
@@ -20,25 +28,17 @@
 
     <!-- Blue Amount Section -->
     <div class="amount-card">
-        <div class="amount-left">
-            <small>Payment Amount</small>
-            <h1 id="dispAmt">₹500</h1>
-        </div>
-        <div class="timer-right">
-            <span id="timer">⏳ 14:44</span>
-        </div>
+        <small>Payment Amount</small>
+        <h1>₹500</h1>
     </div>
 
-    <!-- QR & UPI Horizontal Row -->
+    <!-- QR & UPI -->
     <div class="qr-upi-row">
-        <div class="qr-section">
-            <h3>Scan & Pay</h3>
-            <div id="qrCode"></div>
-        </div>
+        <div class="qr-section"><h3>Scan</h3><div id="qrCode"></div></div>
         <div class="upi-section">
             <h3>UPI ID</h3>
             <input type="text" id="upiField" readonly value="example@upi">
-            <button class="copy-btn">Copy</button>
+            <button class="copy-btn" onclick="copyUpi()">Copy UPI ID</button>
         </div>
     </div>
 
@@ -53,8 +53,8 @@
 
     <!-- Verify Section -->
     <div class="utr-box">
-        <h3>Enter Reference Number (UTR)</h3>
-        <input type="text" id="utr" placeholder="Enter 12-digit UTR">
+        <h3>Enter 12-digit UTR</h3>
+        <input type="text" id="utr" class="ref-input" placeholder="000000000000">
         <button id="submitBtn" class="btn-submit">✅ Verify Payment</button>
     </div>
 
