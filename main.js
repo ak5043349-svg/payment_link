@@ -24,7 +24,7 @@ const baseURL = "https://superlative-treacle-446313.netlify.app/payment.html";
         expiry: expiry
     });
 
-    const finalLink = `${baseUrl}?${params.toString()}`;
+    const finalLink = `${baseURL}?${params.toString()}`;
 
     document.getElementById('outputLink').value = finalLink;
 }
