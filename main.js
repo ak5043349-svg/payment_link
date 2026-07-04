@@ -13,7 +13,7 @@ function generateLink() {
     const expiry = Date.now() + (timer * 60 * 1000);
 
  // Purana link hatakar naya link lagayein
-const baseUrl = "https://ak5043349-svg.github.io/payment_link/payment.html";
+const baseURL = "https://netlify.com/site/payment.html";
 
     const params = new URLSearchParams({
         app: appName,
