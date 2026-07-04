@@ -112,10 +112,7 @@ function openPaymentApp(appName) {
         gpay: `googlepay://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
         phonepe: `phonepe://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
         paytm: `paytmmp://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
-        bhim: `bhim://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
-        amazon: `amazonpay://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
-        whatsapp: `whatsapp://send?text=Payment%20of%20₹${currentAmount}%20to%20${currentUpi}`,
-    };
+        };
     
     const intent = appIntents[appName];
     if (intent) {
