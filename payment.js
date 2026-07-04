@@ -47,9 +47,7 @@ const upiLink = `upi://pay?pa=${upi || elements.upiField.value}&pn=${app || "Use
 // ===========================
 function generateQR() {
     if (!elements.qrCode) return;
-    
     elements.qrCode.innerHTML = "";
-    
     try {
         new QRCode(elements.qrCode, {
             text: upiLink,
@@ -63,7 +61,6 @@ function generateQR() {
         elements.qrCode.innerHTML = `<p style="color:#dc3545;font-size:11px;">⚠️ QR failed</p>`;
     }
 }
-
 generateQR();
 
 // ===========================
@@ -75,7 +72,6 @@ function copyUpi() {
         showToast("❌ No UPI ID to copy", "error");
         return;
     }
-    
     navigator.clipboard.writeText(upiId).then(() => {
         showToast("✅ UPI Copied Successfully", "success");
     }).catch(() => {
@@ -97,7 +93,7 @@ function openUPI() {
 }
 
 // ===========================
-// Open Payment App
+// Open Payment App - With Play Store Redirect
 // ===========================
 function openPaymentApp(appName) {
     if (isExpired()) {
@@ -108,24 +104,65 @@ function openPaymentApp(appName) {
     const currentUpi = elements.upiField.value;
     const currentAmount = elements.dispAmt.innerText.replace("₹", "");
     
-    const appIntents = {
-        gpay: `googlepay://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
-        phonepe: `phonepe://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
-        paytm: `paytmmp://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
-        };
+    // App Configurations
+    const appConfig = {
+        gpay: {
+            name: "Google Pay",
+            intent: `googlepay://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+            playStore: "https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.paisa.user"
+        },
+        phonepe: {
+            name: "PhonePe",
+            intent: `phonepe://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+            playStore: "https://play.google.com/store/apps/details?id=com.phonepe.app"
+        },
+        paytm: {
+            name: "Paytm",
+            intent: `paytmmp://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+            playStore: "https://play.google.com/store/apps/details?id=net.one97.paytm"
+        }
+    };
     
-    const intent = appIntents[appName];
-    if (intent) {
-        const link = document.createElement("a");
-        link.href = intent;
-        link.target = "_blank";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showToast(`📱 Opening ${appName}...`, "info");
-    } else {
+    const config = appConfig[appName];
+    if (!config) {
         showToast("❌ Invalid payment app", "error");
+        return;
     }
+    
+    // Try to open app
+    showToast(`📱 Opening ${config.name}...`, "info");
+    
+    // Create link to open app
+    const link = document.createElement('a');
+    link.href = config.intent;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Check if app opened after 2.5 seconds
+    setTimeout(() => {
+        // If page is still visible, app didn't open
+        if (!document.hidden) {
+            // Ask user if they want to download
+            const goToStore = confirm(
+                `❌ ${config.name} app not found!\n\n` +
+                `Click OK to download from Play Store.\n` +
+                `Click Cancel to pay manually using UPI ID.`
+            );
+            
+            if (goToStore) {
+                showToast(`⬇️ Opening Play Store...`, "info");
+                setTimeout(() => {
+                    window.location.href = config.playStore;
+                }, 500);
+            } else {
+                // Copy UPI ID for manual payment
+                copyUpi();
+                showToast(`💡 Pay manually using UPI: ${currentUpi}`, "info");
+            }
+        }
+    }, 2500);
 }
 
 // ===========================
@@ -144,52 +181,34 @@ function updateTimer() {
         elements.timer.innerText = "∞";
         return;
     }
-    
     const remaining = expiry - Date.now();
-    
     if (remaining <= 0) {
         elements.timer.innerText = "Expired";
         elements.timer.classList.add("expired");
         return;
     }
-    
     const minutes = Math.floor(remaining / 60000);
     const seconds = Math.floor((remaining % 60000) / 1000);
     elements.timer.innerText = `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
-
 updateTimer();
 setInterval(updateTimer, 1000);
 
 // ===========================
 // Validate UTR
 // ===========================
-function validateUTR(utr) {
-    const cleanUTR = utr.replace(/\s/g, "");
-    
-    if (!/^\d{12}$/.test(cleanUTR)) {
-        return { valid: false, message: "Please enter valid 12 digit UTR" };
-    }
-    
-    return { valid: true, message: "✅ Valid UTR format", cleanUTR };
-}
-
 function verifyUTR(utrNumber) {
-    const result = validateUTR(utrNumber);
-    
-    if (!result.valid) {
-        elements.utrStatus.textContent = "❌ " + result.message;
+    const cleanUTR = utrNumber.replace(/\s/g, "");
+    if (!/^\d{12}$/.test(cleanUTR)) {
+        elements.utrStatus.textContent = "❌ Invalid UTR! Must be 12 digits";
         elements.utrStatus.style.color = "#dc3545";
         elements.utrInput.classList.add("error");
-        elements.utrInput.classList.remove("success");
         return;
     }
-    
     elements.utrStatus.textContent = "⏳ Verifying payment...";
     elements.utrStatus.style.color = "#1a73e8";
     elements.submitBtn.disabled = true;
     elements.submitBtn.innerHTML = '<span class="loading-spinner"></span>';
-    
     setTimeout(() => {
         elements.utrStatus.textContent = "✅ Payment Verified Successfully!";
         elements.utrStatus.style.color = "#28a745";
@@ -197,11 +216,7 @@ function verifyUTR(utrNumber) {
         elements.utrInput.classList.add("success");
         elements.submitBtn.disabled = false;
         elements.submitBtn.innerHTML = "Verify Payment";
-        
         showToast("🎉 Payment verified successfully!", "success");
-        
-        document.querySelector(".main-wrapper").style.border = "3px solid #28a745";
-        document.querySelector(".main-wrapper").style.transition = "border-color 0.5s";
     }, 2000);
 }
 
@@ -212,15 +227,9 @@ function showToast(message, type = "info") {
     const toast = elements.toast;
     toast.textContent = message;
     toast.className = "toast " + type;
-    
-    setTimeout(() => {
-        toast.classList.add("show");
-    }, 10);
-    
+    setTimeout(() => toast.classList.add("show"), 10);
     clearTimeout(toast._hideTimeout);
-    toast._hideTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3000);
+    toast._hideTimeout = setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
 // ===========================
@@ -251,28 +260,13 @@ elements.submitBtn?.addEventListener("click", function() {
 // UTR Input
 elements.utrInput?.addEventListener("input", function() {
     this.value = this.value.replace(/\D/g, "");
-    
-    if (this.value.length > 0) {
-        const raw = this.value.replace(/\s/g, "");
-        if (raw.length <= 12) {
-            const formatted = raw.match(/.{1,4}/g)?.join(" ") || raw;
-            if (this.value !== formatted) {
-                const cursorPos = this.selectionStart;
-                this.value = formatted;
-                this.setSelectionRange(cursorPos, cursorPos);
-            }
-        }
-    }
-    
     elements.utrStatus.textContent = "";
     this.classList.remove("error", "success");
 });
 
 // Enter key
 elements.utrInput?.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-        elements.submitBtn?.click();
-    }
+    if (e.key === "Enter") elements.submitBtn?.click();
 });
 
 // ===========================
@@ -280,3 +274,4 @@ elements.utrInput?.addEventListener("keypress", function(e) {
 // ===========================
 window.copyUpi = copyUpi;
 window.openUPI = openUPI;
+window.openPaymentApp = openPaymentApp;
