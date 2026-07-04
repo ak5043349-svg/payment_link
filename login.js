@@ -70,7 +70,7 @@ function handleLogin() {
 
             // Redirect to generator
             setTimeout(() => {
-                window.location.href = 'generator.html';
+                window.location.href = 'index.html';
             }, 500);
 
         } else {
