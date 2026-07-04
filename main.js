@@ -13,7 +13,7 @@ function generateLink() {
     const expiry = Date.now() + (timer * 60 * 1000);
 
  // Purana link hatakar naya link lagayein
-const baseURL = "https://netlify.com/site/payment.html";
+const baseURL = "https://superlative-treacle-446313.netlify.app/payment.html";
 
     const params = new URLSearchParams({
         app: appName,
