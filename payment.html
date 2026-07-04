@@ -11,123 +11,62 @@
 </head>
 <body>
     <div class="page-wrapper">
-        <!-- Header -->
-        <div class="top-header">
-            <div class="secure-icon">🔒</div>
-            <h2>Secure Payment</h2>
-            <p>100% Secure UPI Payment Gateway</p>
+    <!-- Customer Info Card -->
+    <div class="info-card">
+        <div class="info-row"><span>Application</span> <strong id="dispApp">My Payment App</strong></div>
+        <div class="info-row"><span>Product</span> <strong id="dispProd">Premium Recharge</strong></div>
+        <div class="info-row"><span>Name</span> <strong id="dispUser">John Doe</strong></div>
+    </div>
+
+    <!-- Blue Amount Section -->
+    <div class="amount-card">
+        <div class="amount-left">
+            <small>Payment Amount</small>
+            <h1 id="dispAmt">₹500</h1>
         </div>
-
-        <!-- Main Card -->
-        <div class="payment-card">
-            <!-- Customer Information -->
-            <div class="info-card">
-                <div class="info-title">Customer Details</div>
-                <div class="info-row">
-                    <span>Application</span>
-                    <strong id="dispApp">-</strong>
-                </div>
-                <div class="info-row">
-                    <span>Product</span>
-                    <strong id="dispProd">-</strong>
-                </div>
-                <div class="info-row">
-                    <span>Customer</span>
-                    <strong id="dispUser">-</strong>
-                </div>
-            </div>
-
-            <!-- Amount & Timer Card -->
-            <div class="amount-card">
-                <div class="amount-left">
-                    <small>Payment Amount</small>
-                    <h1 id="dispAmt">₹0</h1>
-                </div>
-                <div class="timer-right">
-                    <span>⏳</span>
-                    <span id="timer">15:00</span>
-                </div>
-            </div>
-
-            <!-- QR & UPI Horizontal Section -->
-            <div class="qr-upi-row">
-                <!-- QR Section -->
-                <div class="qr-section">
-                    <h3>Scan QR To Pay</h3>
-                    <div id="qrCode"></div>
-                    <p class="scan-text">Scan using any UPI App</p>
-                </div>
-
-                <!-- UPI Section -->
-                <div class="upi-section">
-                    <h3>UPI Payment Details</h3>
-                    <p class="upi-text">Copy the UPI ID or use any payment app below.</p>
-                    <div class="copy-box">
-                        <input type="text" id="upiField" readonly value="example@upi">
-                        <button onclick="copyUpi()">Copy</button>
-                    </div>
-                    <button id="payNowBtn" class="pay-btn">💳 Pay Now</button>
-                </div>
-            </div>
-
-            <!-- Payment Apps - Horizontal -->
-            <div class="apps-horizontal">
-                <h3 class="section-title">Choose Payment App</h3>
-                <div class="apps-scroll">
-                    <div class="app-item" data-app="gpay">
-                        <div class="app-icon">🔵</div>
-                        <span>Google Pay</span>
-                    </div>
-                    <div class="app-item" data-app="phonepe">
-                        <div class="app-icon">🟣</div>
-                        <span>PhonePe</span>
-                    </div>
-                    <div class="app-item" data-app="paytm">
-                        <div class="app-icon">🔷</div>
-                        <span>Paytm</span>
-                    </div>
-                    <div class="app-item" data-app="bhim">
-                        <div class="app-icon">🟠</div>
-                        <span>BHIM</span>
-                    </div>
-                    <div class="app-item" data-app="amazon">
-                        <div class="app-icon">🟡</div>
-                        <span>Amazon Pay</span>
-                    </div>
-                    <div class="app-item" data-app="whatsapp">
-                        <div class="app-icon">🟢</div>
-                        <span>WhatsApp Pay</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Verify Payment -->
-            <div class="utr-box">
-                <h3>Verify Your Payment</h3>
-                <p class="verify-text">Payment karne ke baad apna 12 digit UTR Number enter karein.</p>
-                <div class="utr-input-row">
-                    <input type="text" id="utr" class="ref-input" maxlength="12" placeholder="Enter 12 Digit UTR Number" inputmode="numeric" pattern="[0-9]*">
-                    <button id="submitBtn" class="btn-submit">✅ Verify Payment</button>
-                </div>
-                <p id="utrStatus" style="margin-top:10px;font-size:14px;text-align:center;min-height:24px;"></p>
-            </div>
-
-            <!-- Important Note -->
-            <div class="note-card">
-                <h3>Important Instructions</h3>
-                <ul>
-                    <li>✅ QR Code scan karke payment karein.</li>
-                    <li>✅ Payment successful hone ke baad UTR Number enter karein.</li>
-                    <li>✅ Expiry timer khatam hone se pehle payment complete karein.</li>
-                    <li>✅ Wrong UTR submit na karein.</li>
-                    <li>✅ Agar payment issue aaye to support se contact karein.</li>
-                </ul>
-            </div>
-
-            <!-- Footer -->
-            <div class="footer">🔒 100% Secure Payment Gateway</div>
+        <div class="timer-right">
+            <span id="timer">⏳ 14:44</span>
         </div>
     </div>
+
+    <!-- QR & UPI Horizontal Row -->
+    <div class="qr-upi-row">
+        <div class="qr-section">
+            <h3>Scan & Pay</h3>
+            <div id="qrCode"></div>
+        </div>
+        <div class="upi-section">
+            <h3>UPI ID</h3>
+            <input type="text" id="upiField" readonly value="example@upi">
+            <button class="copy-btn">Copy</button>
+        </div>
+    </div>
+
+    <!-- Payment Methods (Icons) -->
+    <div class="apps-horizontal">
+        <div class="app-item"><span>🔵</span>GPay</div>
+        <div class="app-item"><span>🟣</span>PhonePe</div>
+        <div class="app-item"><span>🔷</span>Paytm</div>
+        <div class="app-item"><span>🟠</span>BHIM</div>
+        <div class="app-item"><span>🟡</span>Amazon</div>
+    </div>
+
+    <!-- Verify Section -->
+    <div class="utr-box">
+        <h3>Enter Reference Number (UTR)</h3>
+        <input type="text" id="utr" placeholder="Enter 12-digit UTR">
+        <button id="submitBtn" class="btn-submit">✅ Verify Payment</button>
+    </div>
+
+    <!-- Instructions -->
+    <div class="note-card">
+        <h3>Important Instructions</h3>
+        <ul>
+            <li>✅ QR Code scan karke payment karein.</li>
+            <li>✅ Payment ke baad UTR enter karein.</li>
+        </ul>
+    </div>
+</div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>

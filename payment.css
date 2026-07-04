@@ -1,107 +1,18 @@
-/* General Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; display: flex; justify-content: center; padding: 20px; }
+.page-wrapper { width: 100%; max-width: 450px; }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    min-height: 100vh;
-}
+.info-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+.info-row { display: flex; justify-content: space-between; padding: 8px 0; }
 
-.page-wrapper {
-    width: 100%;
-    max-width: 400px;
-}
+.amount-card { background: #007bff; color: white; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
 
-/* Header Section */
-.top-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
+.qr-upi-row { display: flex; gap: 10px; margin: 15px 0; }
+.qr-section, .upi-section { background: white; padding: 15px; border-radius: 12px; flex: 1; text-align: center; border: 1px solid #eee; }
 
-.secure-icon {
-    font-size: 40px;
-    margin-bottom: 5px;
-}
+.apps-horizontal { display: flex; justify-content: space-between; background: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+.app-item { text-align: center; font-size: 12px; }
 
-/* Card Styling */
-.payment-card {
-    background: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-/* Info Section */
-.info-card {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.info-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-/* Amount & Timer */
-.amount-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background: #e7f3ff;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-#dispAmt { color: #007bff; }
-#timer { font-weight: bold; color: #dc3545; }
-
-/* QR Section */
-#qrCode {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-/* Inputs & Buttons */
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ced4da;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-.btn-submit {
-    width: 100%;
-    padding: 14px;
-    background: #28a745;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.btn-submit:hover {
-    background: #218838;
-}
-
-/* Mobile Responsive Adjustments */
-@media (max-width: 480px) {
-    body { padding: 10px; }
-    .payment-card { padding: 15px; }
-}
+.utr-box { background: #f8fbff; padding: 20px; border-radius: 12px; border: 1px solid #d1e7ff; }
+.btn-submit { width: 100%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+.note-card { background: white; padding: 15px; border-radius: 12px; font-size: 13px; }
