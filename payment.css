@@ -1,30 +1,622 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Poppins', sans-serif; background-color: #eef2f7; display: flex; justify-content: center; padding: 15px; }
-
-/* Main Wrapper Card */
-.main-wrapper { 
-    background: white; 
-    width: 100%; 
-    max-width: 450px; 
-    padding: 20px; 
-    border-radius: 20px; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+/* ==========================
+   Reset & Base
+========================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.info-card { background: #f8f9fa; padding: 15px; border-radius: 15px; margin-bottom: 20px; }
-.info-row { display: flex; justify-content: space-between; padding: 5px 0; }
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #eef2f7, #dce3ef);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+}
 
-.amount-card { background: #007bff; color: white; padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
+/* ==========================
+   Main Wrapper
+========================== */
+.main-wrapper {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+}
 
-/* QR & UPI Row */
-.qr-upi-row { display: flex; gap: 10px; margin-bottom: 20px; }
-.qr-section, .upi-section { flex: 1; border: 1px solid #eee; padding: 15px; border-radius: 15px; text-align: center; }
+/* ==========================
+   Header
+========================== */
+.header {
+    background: linear-gradient(135deg, #1a73e8, #4a9eff);
+    color: white;
+    text-align: center;
+    padding: 25px 20px 20px;
+    border-radius: 20px 20px 0 0;
+    margin: -20px -20px 20px -20px;
+}
 
-/* Expanded UPI Field */
-#upiField { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 8px; text-align: center; }
-.copy-btn { width: 100%; padding: 8px; background: #eee; border: none; border-radius: 5px; cursor: pointer; }
+.lock-icon {
+    font-size: 32px;
+    margin-bottom: 3px;
+}
 
-/* UTR Section */
-.utr-box { margin-top: 25px; padding-top: 20px; border-top: 2px dashed #eee; }
-.ref-input { width: 100%; padding: 18px; font-size: 16px; border: 2px solid #007bff; border-radius: 10px; margin-bottom: 15px; }
-.btn-submit { width: 100%; padding: 18px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; }
+.header h1 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.header p {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+/* ==========================
+   Info Card
+========================== */
+.info-card {
+    background: #f5f9ff;
+    border: 1px solid #e3edfd;
+    padding: 14px 16px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+}
+
+.info-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a73e8;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e3edfd;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.info-row span {
+    color: #666;
+    font-size: 14px;
+}
+
+.info-row strong {
+    color: #1a73e8;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ==========================
+   Amount & Timer Card
+========================== */
+.amount-timer-card {
+    background: linear-gradient(135deg, #1a73e8, #4a9eff);
+    color: white;
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.amount-section .label {
+    font-size: 12px;
+    opacity: 0.85;
+    display: block;
+}
+
+.amount-section h2 {
+    font-size: 30px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.timer-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.timer-section .expired {
+    color: #ff6b6b;
+}
+
+/* ==========================
+   QR & UPI Row
+========================== */
+.qr-upi-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+/* QR Section */
+.qr-section {
+    background: #fff;
+    border: 2px solid #eef4ff;
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+}
+
+.qr-section h3 {
+    color: #1a73e8;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.qr-sub {
+    color: #888;
+    font-size: 10px;
+    margin-bottom: 8px;
+}
+
+#qrCode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+    margin: 5px 0;
+}
+
+#qrCode canvas {
+    max-width: 130px;
+    height: auto;
+}
+
+.scan-btn {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 5px;
+}
+
+.scan-btn:active {
+    transform: scale(0.95);
+}
+
+/* UPI Section */
+.upi-section {
+    background: #fff;
+    border: 2px solid #eef4ff;
+    border-radius: 14px;
+    padding: 14px 10px;
+}
+
+.upi-section h3 {
+    color: #1a73e8;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.upi-sub {
+    color: #888;
+    font-size: 10px;
+    margin-bottom: 8px;
+}
+
+.upi-copy-box {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.upi-copy-box input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 2px solid #dbe9ff;
+    border-radius: 8px;
+    font-size: 12px;
+    background: #f5f9ff;
+    color: #1a73e8;
+    font-weight: 500;
+    outline: none;
+    min-width: 0;
+}
+
+.upi-copy-box input:focus {
+    border-color: #1a73e8;
+}
+
+.upi-copy-box .copy-btn {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+
+.upi-copy-box .copy-btn:active {
+    transform: scale(0.95);
+}
+
+.pay-btn {
+    width: 100%;
+    padding: 8px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.pay-btn:active {
+    transform: scale(0.98);
+    background: #218838;
+}
+
+/* ==========================
+   OR Divider
+========================== */
+.or-divider {
+    display: flex;
+    align-items: center;
+    margin: 6px 0 12px;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #dde1e6;
+}
+
+.or-divider span {
+    padding: 0 15px;
+    color: #999;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ==========================
+   Payment Apps
+========================== */
+.apps-section {
+    margin-bottom: 16px;
+}
+
+.apps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.app-item {
+    background: #fff;
+    border: 2px solid #eef4ff;
+    border-radius: 12px;
+    padding: 10px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.app-item:active {
+    transform: scale(0.95);
+}
+
+.app-item:hover {
+    border-color: #1a73e8;
+    background: #f5f9ff;
+}
+
+.app-item span:first-child {
+    font-size: 26px;
+}
+
+.app-item span:last-child {
+    font-size: 10px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* ==========================
+   UTR Box
+========================== */
+.utr-box {
+    background: #f5f9ff;
+    border: 1px solid #e3edfd;
+    border-radius: 14px;
+    padding: 16px 16px 18px;
+    margin-bottom: 14px;
+}
+
+.utr-box h3 {
+    color: #1a73e8;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.utr-sub {
+    color: #888;
+    font-size: 12px;
+    margin: 3px 0 12px;
+}
+
+.utr-row {
+    display: flex;
+    gap: 8px;
+}
+
+.ref-input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 2px solid #dbe9ff;
+    border-radius: 10px;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-align: center;
+    outline: none;
+    background: white;
+    transition: border-color 0.3s;
+    min-width: 0;
+}
+
+.ref-input:focus {
+    border-color: #1a73e8;
+}
+
+.ref-input.error {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+.ref-input.success {
+    border-color: #28a745;
+    background: #f0fff4;
+}
+
+.btn-submit {
+    padding: 12px 18px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.btn-submit:active {
+    transform: scale(0.95);
+    background: #1557b0;
+}
+
+.btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.utr-status {
+    margin-top: 8px;
+    font-size: 13px;
+    text-align: center;
+    min-height: 22px;
+}
+
+/* ==========================
+   Note Card
+========================== */
+.note-card {
+    background: #f8faff;
+    border-left: 4px solid #1a73e8;
+    padding: 12px 14px;
+    border-radius: 8px;
+}
+
+.note-card h3 {
+    color: #1a73e8;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.note-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.note-card li {
+    font-size: 12px;
+    color: #666;
+    padding: 2px 0;
+    padding-left: 18px;
+    position: relative;
+}
+
+.note-card li::before {
+    content: '•';
+    position: absolute;
+    left: 2px;
+    color: #1a73e8;
+}
+
+/* ==========================
+   Toast
+========================== */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1000;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+    background: #28a745;
+}
+
+.toast.error {
+    background: #dc3545;
+}
+
+.toast.info {
+    background: #1a73e8;
+}
+
+/* ==========================
+   Loading Spinner
+========================== */
+.loading-spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================
+   Responsive
+========================== */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .main-wrapper {
+        padding: 15px;
+        border-radius: 20px;
+    }
+    
+    .header {
+        padding: 20px 15px 16px;
+        border-radius: 16px 16px 0 0;
+        margin: -15px -15px 16px -15px;
+    }
+    
+    .header h1 {
+        font-size: 20px;
+    }
+    
+    .amount-section h2 {
+        font-size: 26px;
+    }
+    
+    .timer-section {
+        font-size: 15px;
+        padding: 4px 12px;
+    }
+    
+    .qr-upi-row {
+        gap: 8px;
+    }
+    
+    #qrCode canvas {
+        max-width: 100px;
+    }
+    
+    .apps-grid {
+        gap: 6px;
+    }
+    
+    .app-item span:first-child {
+        font-size: 22px;
+    }
+    
+    .app-item span:last-child {
+        font-size: 9px;
+    }
+    
+    .utr-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn-submit {
+        width: 100%;
+    }
+    
+    .upi-copy-box {
+        flex-direction: column;
+    }
+    
+    .upi-copy-box .copy-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 400px) {
+    .qr-upi-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    #qrCode canvas {
+        max-width: 140px;
+    }
+    
+    .amount-timer-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .timer-section {
+        align-self: flex-start;
+    }
+    
+    .apps-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

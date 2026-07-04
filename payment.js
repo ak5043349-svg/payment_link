@@ -21,44 +21,29 @@ const elements = {
     upiField: document.getElementById("upiField"),
     qrCode: document.getElementById("qrCode"),
     timer: document.getElementById("timer"),
-    payNowBtn: document.getElementById("payNowBtn"),
-    submitBtn: document.getElementById("submitBtn"),
     utrInput: document.getElementById("utr"),
     utrStatus: document.getElementById("utrStatus"),
     toast: document.getElementById("toast"),
     appItems: document.querySelectorAll(".app-item"),
+    submitBtn: document.getElementById("submitBtn"),
 };
 
 // ===========================
-// Validate Link
+// Validate & Populate
 // ===========================
-if (!app || !amount || !upi) {
-    document.body.innerHTML = `
-        <div style="text-align:center;margin-top:50px;padding:40px;background:#fff;border-radius:20px;max-width:500px;margin-left:auto;margin-right:auto;box-shadow:0 10px 40px rgba(0,0,0,0.1);">
-            <div style="font-size:60px;margin-bottom:10px;">❌</div>
-            <h2 style="color:#dc3545;font-size:22px;">Invalid Payment Link</h2>
-            <p style="color:#666;margin-top:10px;font-size:14px;">Missing required parameters: app, amount, or upi</p>
-        </div>
-    `;
-    throw new Error("Invalid Payment Link - Missing required parameters");
-}
+if (app) elements.dispApp.innerText = app;
+if (prod) elements.dispProd.innerText = prod;
+if (user) elements.dispUser.innerText = user;
+if (amount) elements.dispAmt.innerText = "₹" + amount;
+if (upi) elements.upiField.value = upi;
 
 // ===========================
-// Populate Data
+// UPI Link
 // ===========================
-elements.dispApp.innerText = app || "-";
-elements.dispProd.innerText = prod || "-";
-elements.dispUser.innerText = user || "-";
-elements.dispAmt.innerText = "₹" + amount;
-elements.upiField.value = upi;
+const upiLink = `upi://pay?pa=${upi || elements.upiField.value}&pn=${app || "User"}&am=${amount || 99}&cu=INR`;
 
 // ===========================
-// UPI LINK
-// ===========================
-const upiLink = `upi://pay?pa=${upi}&pn=${app}&am=${amount}&cu=INR`;
-
-// ===========================
-// QR CODE Generation
+// Generate QR Code
 // ===========================
 function generateQR() {
     if (!elements.qrCode) return;
@@ -68,22 +53,21 @@ function generateQR() {
     try {
         new QRCode(elements.qrCode, {
             text: upiLink,
-            width: 150,
-            height: 150,
-            colorDark: "#0d6efd",
+            width: 140,
+            height: 140,
+            colorDark: "#1a73e8",
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
         });
     } catch (error) {
-        console.error("QR Generation Error:", error);
-        elements.qrCode.innerHTML = `<p style="color:#dc3545;font-size:12px;">⚠️ QR failed</p>`;
+        elements.qrCode.innerHTML = `<p style="color:#dc3545;font-size:11px;">⚠️ QR failed</p>`;
     }
 }
 
 generateQR();
 
 // ===========================
-// Copy UPI Function
+// Copy UPI
 // ===========================
 function copyUpi() {
     const upiId = elements.upiField.value;
@@ -102,7 +86,7 @@ function copyUpi() {
 }
 
 // ===========================
-// Open UPI Function
+// Open UPI
 // ===========================
 function openUPI() {
     if (isExpired()) {
@@ -113,7 +97,7 @@ function openUPI() {
 }
 
 // ===========================
-// Open Specific Payment App
+// Open Payment App
 // ===========================
 function openPaymentApp(appName) {
     if (isExpired()) {
@@ -121,13 +105,16 @@ function openPaymentApp(appName) {
         return;
     }
     
+    const currentUpi = elements.upiField.value;
+    const currentAmount = elements.dispAmt.innerText.replace("₹", "");
+    
     const appIntents = {
-        gpay: `googlepay://upi/pay?pa=${upi}&pn=${app}&am=${amount}&cu=INR`,
-        phonepe: `phonepe://upi/pay?pa=${upi}&pn=${app}&am=${amount}&cu=INR`,
-        paytm: `paytmmp://upi/pay?pa=${upi}&pn=${app}&am=${amount}&cu=INR`,
-        bhim: `bhim://upi/pay?pa=${upi}&pn=${app}&am=${amount}&cu=INR`,
-        amazon: `amazonpay://upi/pay?pa=${upi}&pn=${app}&am=${amount}&cu=INR`,
-        whatsapp: `whatsapp://send?text=Payment%20of%20₹${amount}%20to%20${upi}`,
+        gpay: `googlepay://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+        phonepe: `phonepe://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+        paytm: `paytmmp://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+        bhim: `bhim://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+        amazon: `amazonpay://upi/pay?pa=${currentUpi}&pn=${app || "User"}&am=${currentAmount}&cu=INR`,
+        whatsapp: `whatsapp://send?text=Payment%20of%20₹${currentAmount}%20to%20${currentUpi}`,
     };
     
     const intent = appIntents[appName];
@@ -153,7 +140,7 @@ function isExpired() {
 }
 
 // ===========================
-// Timer Function
+// Timer
 // ===========================
 function updateTimer() {
     if (!expiry) {
@@ -166,9 +153,6 @@ function updateTimer() {
     if (remaining <= 0) {
         elements.timer.innerText = "Expired";
         elements.timer.classList.add("expired");
-        elements.payNowBtn.disabled = true;
-        elements.submitBtn.disabled = true;
-        elements.upiField.disabled = true;
         return;
     }
     
@@ -181,7 +165,7 @@ updateTimer();
 setInterval(updateTimer, 1000);
 
 // ===========================
-// UTR Validation & Submit
+// Validate UTR
 // ===========================
 function validateUTR(utr) {
     const cleanUTR = utr.replace(/\s/g, "");
@@ -205,27 +189,27 @@ function verifyUTR(utrNumber) {
     }
     
     elements.utrStatus.textContent = "⏳ Verifying payment...";
-    elements.utrStatus.style.color = "#0d6efd";
+    elements.utrStatus.style.color = "#1a73e8";
     elements.submitBtn.disabled = true;
     elements.submitBtn.innerHTML = '<span class="loading-spinner"></span>';
     
     setTimeout(() => {
         elements.utrStatus.textContent = "✅ Payment Verified Successfully!";
-        elements.utrStatus.style.color = "#16a34a";
+        elements.utrStatus.style.color = "#28a745";
         elements.utrInput.classList.remove("error");
         elements.utrInput.classList.add("success");
         elements.submitBtn.disabled = false;
-        elements.submitBtn.innerHTML = "✅ Verify";
+        elements.submitBtn.innerHTML = "Verify Payment";
         
         showToast("🎉 Payment verified successfully!", "success");
         
-        document.querySelector(".payment-card").style.border = "3px solid #16a34a";
-        document.querySelector(".payment-card").style.transition = "border-color 0.5s";
+        document.querySelector(".main-wrapper").style.border = "3px solid #28a745";
+        document.querySelector(".main-wrapper").style.transition = "border-color 0.5s";
     }, 2000);
 }
 
 // ===========================
-// Toast Notification
+// Toast
 // ===========================
 function showToast(message, type = "info") {
     const toast = elements.toast;
@@ -246,8 +230,15 @@ function showToast(message, type = "info") {
 // Event Listeners
 // ===========================
 
-// Pay Now Button
-elements.payNowBtn?.addEventListener("click", openUPI);
+// Payment Apps
+elements.appItems?.forEach(btn => {
+    btn.addEventListener("click", function() {
+        const appName = this.dataset.app;
+        elements.appItems.forEach(b => b.style.borderColor = "#eef4ff");
+        this.style.borderColor = "#1a73e8";
+        openPaymentApp(appName);
+    });
+});
 
 // Submit UTR
 elements.submitBtn?.addEventListener("click", function() {
@@ -260,7 +251,7 @@ elements.submitBtn?.addEventListener("click", function() {
     verifyUTR(utr);
 });
 
-// UTR Input - Only digits & auto-format
+// UTR Input
 elements.utrInput?.addEventListener("input", function() {
     this.value = this.value.replace(/\D/g, "");
     
@@ -280,53 +271,15 @@ elements.utrInput?.addEventListener("input", function() {
     this.classList.remove("error", "success");
 });
 
-// Enter key on UTR input
+// Enter key
 elements.utrInput?.addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
         elements.submitBtn?.click();
     }
 });
 
-// Payment App Items
-elements.appItems?.forEach(item => {
-    item.addEventListener("click", function() {
-        const appName = this.dataset.app;
-        elements.appItems.forEach(el => el.classList.remove("active"));
-        this.classList.add("active");
-        openPaymentApp(appName);
-    });
-    
-    item.addEventListener("touchstart", function() {
-        this.style.transform = "scale(0.95)";
-    });
-    item.addEventListener("touchend", function() {
-        this.style.transform = "scale(1)";
-    });
-});
-
 // ===========================
-// Handle Visibility Change
-// ===========================
-document.addEventListener("visibilitychange", function() {
-    if (!document.hidden) {
-        updateTimer();
-    }
-});
-
-// ===========================
-// Handle Page Unload
-// ===========================
-window.addEventListener("beforeunload", function(e) {
-    const utrValue = elements.utrInput?.value.replace(/\s/g, "") || "";
-    if (utrValue.length === 12) return;
-    if (!isExpired() && elements.payNowBtn?.disabled === false) {
-        e.preventDefault();
-        e.returnValue = "Payment in progress. Are you sure you want to leave?";
-    }
-});
-
-// ===========================
-// Expose functions globally
+// Expose globally
 // ===========================
 window.copyUpi = copyUpi;
 window.openUPI = openUPI;
